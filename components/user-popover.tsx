@@ -14,7 +14,7 @@ const UserPopOver = ({ session, handleSignOut }: UserPopOverProps) => {
         <Popover>
             <PopoverTrigger>
                 <Avatar>
-                    <AvatarImage src="https://github.com/shadcn.png" />
+                    <AvatarImage src={session?.user.image ?? ''} />
                     <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
             </PopoverTrigger>

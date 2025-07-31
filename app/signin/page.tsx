@@ -18,14 +18,14 @@ const SignIn = () => {
       <Card className="w-full max-w-sm bg-secondary">
         <CardHeader>
           <CardTitle>Login to your account</CardTitle>
-          <CardDescription>
+          {/* <CardDescription>
             Enter your email below to login to your account
-          </CardDescription>
-          <CardAction>
+          </CardDescription> */}
+          {/* <CardAction>
             <Button variant="link">Sign Up</Button>
-          </CardAction>
+          </CardAction> */}
         </CardHeader>
-        <CardContent>
+        {/* <CardContent>
           <form>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
@@ -51,11 +51,11 @@ const SignIn = () => {
               </div>
             </div>
           </form>
-        </CardContent>
+        </CardContent> */}
         <CardFooter className="flex-col gap-2">
-          <Button type="submit" className="w-full">
+          {/* <Button type="submit" className="w-full">
             Login
-          </Button>
+          </Button> */}
           <SignInButton />
         </CardFooter>
       </Card>

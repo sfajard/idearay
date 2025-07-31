@@ -8,7 +8,7 @@ const SignInButton = () => {
             'use server'
             await signIn('google')
         }}>
-            <Button variant="outline" className="w-full">
+            <Button className="w-full">
                 Login with Google
             </Button>
         </form>
