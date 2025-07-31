@@ -27,7 +27,7 @@ const UserPopOver = ({ session, handleSignOut }: UserPopOverProps) => {
                         </p>
                     </div>
                 )}
-                <Button size={'sm'} variant={'ghost'} onClick={handleSignOut}>Sign Out</Button>
+                <Button size={'sm'} variant={'link'} onClick={handleSignOut}>Sign Out</Button>
             </PopoverContent>
         </Popover>
     )

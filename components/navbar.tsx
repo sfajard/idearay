@@ -12,7 +12,7 @@ export const Navbar = () => {
         signOut()
     }
     return (
-        <nav className="sticky top-0 z-40 w-full bg-secondary px-4 py-3 shadow-sm border-b flex justify-between">
+        <nav className="sticky top-0 z-40 w-full px-4 py-3 bg-primary text-primary-foreground shadow-sm border-b flex justify-between">
             <span className="text-2xl font-bold"><Link href={'/'}>Logo</Link></span>
             <NavigationMenu className="w-full flex justify-between">
                 <NavigationMenuList className="w-full">
@@ -25,7 +25,7 @@ export const Navbar = () => {
                         {session ? (
                             <UserPopOver handleSignOut={handleSignOut} session={session}/>
                         ) : (
-                            <Button className="cursor-pointer text-left"><Link href='/signin'>Log In</Link></Button>
+                            <Button className="cursor-pointer"><Link href='/signin'>Log In</Link></Button>
                         )}
                     </NavigationMenuItem>
                 </NavigationMenuList>
