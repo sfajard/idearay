@@ -23,7 +23,7 @@ export const Navbar = () => {
                         </NavigationMenuLink>
                     </NavigationMenuItem>
                     <NavigationMenuItem>
-                        {session ? (
+                        {session?.user ? (
                             <UserPopOver handleSignOut={handleSignOut} session={session}/>
                         ) : (
                             <Button className="cursor-pointer"><Link href='/signin'>Log In</Link></Button>
