@@ -10,11 +10,12 @@ interface UserPopOverProps {
 }
 
 const UserPopOver = ({ session, handleSignOut }: UserPopOverProps) => {
+    console.log({ session })
     return (
         <Popover>
             <PopoverTrigger>
                 <Avatar>
-                    <AvatarImage src={session?.user.image ?? 'https://github.com/shadcn.png'} />
+                    <AvatarImage src={session?.user?.image ?? 'https://github.com/shadcn.png'} />
                     <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
             </PopoverTrigger>

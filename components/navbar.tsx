@@ -11,6 +11,7 @@ export const Navbar = () => {
     const handleSignOut = async () => {
         signOut()
     }
+    
     return (
         <nav className="sticky top-0 z-40 w-full px-4 py-3 bg-primary text-primary-foreground shadow-sm border-b flex justify-between">
             <span className="text-2xl font-bold"><Link href={'/'}>Logo</Link></span>
