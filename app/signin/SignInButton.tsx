@@ -4,7 +4,7 @@ import React from 'react'
 
 const SignInButton = () => {
     return (
-        <form action={async () => {
+        <form className='w-full' action={async () => {
             'use server'
             await signIn('google')
         }}>
