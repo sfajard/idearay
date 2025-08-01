@@ -33,8 +33,10 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} bg-secondary antialiased`}
       >
         <SessionProvider session={session} >
-          <Navbar/>
-          {children}
+          <main className="w-full">
+            <Navbar />
+            {children}
+          </main>
         </SessionProvider>
       </body>
     </html>

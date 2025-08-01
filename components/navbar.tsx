@@ -18,11 +18,6 @@ export const Navbar = () => {
             <NavigationMenu className="w-full flex justify-between">
                 <NavigationMenuList className="w-full">
                     <NavigationMenuItem>
-                        <NavigationMenuLink asChild>
-                            <Link href="/about">About</Link>
-                        </NavigationMenuLink>
-                    </NavigationMenuItem>
-                    <NavigationMenuItem>
                         {session?.user ? (
                             <UserPopOver handleSignOut={handleSignOut} session={session}/>
                         ) : (

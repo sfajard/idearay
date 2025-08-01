@@ -7,7 +7,8 @@ export const getAllPosts = async () => {
     try {
         const response = await prisma.post.findMany({
             include: {
-                user: true
+                user: true,
+                Like: true
             }
         })
         return response
