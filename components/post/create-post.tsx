@@ -26,7 +26,7 @@ export function CreatePostForm({ onPostSubmit, onSuccess }: CreatePostFormProps)
   };
 
   return (
-    <Card className="mb-6">
+    <Card className="mb-6 w-full md:w-lg">
       <CardHeader>
         <h2 className="text-lg font-semibold">Buat Postingan Baru</h2>
       </CardHeader>

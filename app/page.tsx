@@ -4,13 +4,14 @@ import { useEffect, useState } from "react";
 import { PostCard } from "@/components/post/post-card";
 import { CreatePostForm } from "@/components/post/create-post";
 import { Separator } from "@/components/ui/separator";
-import { Post, User } from "@prisma/client";
+import { Like, Post, User } from "@prisma/client";
 import { createPost, getAllPosts } from "@/lib/actions/post";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 
 interface PostWithUser extends Post {
   user: Pick<User, 'name' | 'image' | 'id'>
+  Like: Like[]
 }
 
 export default function Feed() {
@@ -61,10 +62,10 @@ export default function Feed() {
 
   return (
     <div className="w-full flex items-center justify-center">
-      <div className="wflex min-h-screen w-135 flex-col items-center p-8 bg-gray-50">
+      <div className="flex min-h-screen w-full flex-col items-center bg-gray-50">
         <CreatePostForm onSuccess={loadPosts} onPostSubmit={handleNewPost} />
         <Separator className="mb-6" />
-        <div className="space-y-4">
+        <div className="w-full flex flex-col items-center">
           {posts.map((post) => (
             <PostCard key={post.id}
               id={post.id}
@@ -73,6 +74,7 @@ export default function Feed() {
               avatarUrl={post.user.image ?? 'https://github.com/shadcn.png'}
               content={post.content}
               timestamp={post.createdAt.toISOString()}
+              Like={post.Like}
               onSuccess={loadPosts}
             />
           ))}
