@@ -1,17 +1,22 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { PostCard } from "@/components/post/post-card";
+import { PostCard, PostCardSkeleton } from "@/components/post/post-card";
 import { CreatePostForm } from "@/components/post/create-post";
 import { Separator } from "@/components/ui/separator";
-import { Like, Post, User } from "@prisma/client";
+import { Comment, Like, Post, User } from "@prisma/client";
 import { createPost, getAllPosts } from "@/lib/actions/post";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 
+interface CommentWithUser extends Comment {
+  user: User
+}
+
 interface PostWithUser extends Post {
   user: Pick<User, 'name' | 'image' | 'id'>
   Like: Like[]
+  comment: CommentWithUser[]
 }
 
 export default function Feed() {
@@ -65,20 +70,25 @@ export default function Feed() {
       <div className="flex min-h-screen w-full flex-col items-center bg-gray-50">
         <CreatePostForm onSuccess={loadPosts} onPostSubmit={handleNewPost} />
         <Separator className="mb-6" />
-        <div className="w-full flex flex-col items-center">
-          {posts.map((post) => (
-            <PostCard key={post.id}
-              id={post.id}
-              userId={post.userId}
-              username={post.user.name ?? '-'}
-              avatarUrl={post.user.image ?? 'https://github.com/shadcn.png'}
-              content={post.content}
-              timestamp={post.createdAt.toISOString()}
-              Like={post.Like}
-              onSuccess={loadPosts}
-            />
-          ))}
-        </div>
+        {loading ? (
+          <PostCardSkeleton />
+        ) : (
+          <div className="w-full flex flex-col items-center">
+            {posts.map((post) => (
+              <PostCard key={post.id}
+                id={post.id}
+                userId={post.userId}
+                username={post.user.name ?? '-'}
+                avatarUrl={post.user.image ?? 'https://github.com/shadcn.png'}
+                content={post.content}
+                timestamp={post.createdAt.toISOString()}
+                Like={post.Like}
+                comment={post.comment}
+                onSuccess={loadPosts}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

@@ -8,7 +8,12 @@ export const getAllPosts = async () => {
         const response = await prisma.post.findMany({
             include: {
                 user: true,
-                Like: true
+                Like: true,
+                comment: {
+                    include: {
+                        user: true
+                    }
+                }
             }
         })
         return response
@@ -75,7 +80,7 @@ export const deletePost = async (id: string) => {
     try {
         const response = await prisma.post.delete({
             where: {
-                id
+                id: id
             }
         })
 
