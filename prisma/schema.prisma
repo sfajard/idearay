@@ -44,6 +44,7 @@ model User {
   role          String    @default("user")
   Posts         Post[]
   likes         Like[]
+  comment       Comment[]
 
   @@map("users")
 }
@@ -56,8 +57,9 @@ model Post {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  Like Like[]
+  user    User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Like    Like[]
+  comment Comment[]
 }
 
 model Like {
@@ -65,6 +67,16 @@ model Like {
   userId String
   postId String
 
-  post Post @relation(fields: [postId], references: [id])
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Comment {
+  id     String @id @default(cuid())
+  userId String
+  postId String
+  content String
+
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
