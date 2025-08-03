@@ -11,6 +11,7 @@
   "dependencies": {
     "@auth/prisma-adapter": "^2.10.0",
     "@fortawesome/react-fontawesome": "^0.2.3",
+    "@hookform/resolvers": "^5.2.1",
     "@prisma/client": "^6.12.0",
     "@prisma/extension-accelerate": "^2.0.2",
     "@radix-ui/react-avatar": "^1.1.10",
@@ -23,15 +24,20 @@
     "@vercel/blob": "^1.1.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "embla-carousel-react": "^8.6.0",
     "lucide-react": "^0.528.0",
     "next": "15.4.4",
     "next-auth": "^5.0.0-beta.29",
+    "next-themes": "^0.4.6",
     "react": "19.1.0",
     "react-dom": "19.1.0",
+    "react-hook-form": "^7.62.0",
     "react-icons": "^5.5.0",
+    "sonner": "^2.0.6",
     "tailwind-merge": "^3.3.1",
     "use-debounce": "^10.0.5",
-    "vaul": "^1.1.2"
+    "vaul": "^1.1.2",
+    "zod": "^4.0.14"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

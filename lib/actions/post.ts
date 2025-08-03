@@ -13,7 +13,8 @@ export const getAllPosts = async () => {
                     include: {
                         user: true
                     }
-                }
+                },
+                image: true
             }
         })
         return response
@@ -36,7 +37,7 @@ export const getPostById = async (id: string) => {
     }
 }
 
-export const createPost = async (content: string, userId: string) => {
+export const createPost = async (content: string, userId: string, imageUrls?: string[]) => {
     if (!userId || !content) return console.error("All field required", { status: 400 })
     try {
         const createdPost = await prisma.post.create({
@@ -45,6 +46,15 @@ export const createPost = async (content: string, userId: string) => {
                 content,
             }
         })
+
+        if (imageUrls && imageUrls.length > 0) {
+            await prisma.image.createMany({
+                data: imageUrls.map(url => ({
+                    url: url,
+                    postId: createdPost.id
+                }))
+            })
+        }
 
         return createdPost
     } catch (error) {
@@ -69,7 +79,7 @@ export const updatePost = async (req: Request): Promise<NextResponse> => {
             }
         })
 
-        return NextResponse.json(response, {status: 200})
+        return NextResponse.json(response, { status: 200 })
     } catch (error) {
         console.error("Failed updating post", error)
         return NextResponse.json({ status: 500 })
