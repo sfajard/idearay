@@ -8,13 +8,14 @@ import { EllipsisVertical } from "lucide-react";
 import { Button } from "../ui/button";
 import { useSession } from "next-auth/react";
 import { deletePost } from "@/lib/actions/post";
-import { Comment, Like, User } from "@prisma/client";
+import { Comment, Image, Like, User } from "@prisma/client";
 import { redirect } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useDebounce } from "use-debounce"
 import { createLike, deleteLike } from "@/lib/actions/like";
 import CommentDrawer from "./comment-drawer";
 import { Skeleton } from "../ui/skeleton";
+import { PostImage } from "./post-image";
 
 interface CommentWithUser extends Comment {
     user: User
@@ -28,6 +29,7 @@ interface PostCardProps {
     content: string;
     timestamp: string;
     Like: Like[]
+    image?: Image[]
     comment: CommentWithUser[]
     onSuccess: () => void
 }
@@ -53,7 +55,7 @@ export const PostCardSkeleton = () => (
     </Card>
 )
 
-export function PostCard({ username, avatarUrl, content, timestamp, userId, id, Like, comment, onSuccess }: PostCardProps) {
+export function PostCard({ username, avatarUrl, content, timestamp, userId, id, Like, comment, image, onSuccess }: PostCardProps) {
     const { data: session } = useSession()
     const user = session?.user
     const isOwner = session?.user.id === userId
@@ -79,7 +81,8 @@ export function PostCard({ username, avatarUrl, content, timestamp, userId, id, 
         setLiked(prevLike => !prevLike)
         setLikeCount(prevCount => prevCount + (liked ? -1 : 1))
     }
-
+    if (!image) return
+    const isImageNotEmpty = image?.length >= 1
     useEffect(() => {
         if (!user?.id) return
         if (debouncedLike !== initialLikedRef.current) {
@@ -96,7 +99,7 @@ export function PostCard({ username, avatarUrl, content, timestamp, userId, id, 
     }, [debouncedLike, user?.id, id]);
 
     return (
-        <Card className="w-full md:w-lg">
+        <Card className="w-full md:w-xl">
             <CardHeader className="flex flex-row items-center">
                 <div className="flex justify-between w-full">
                     <div className="flex items-center">
@@ -122,8 +125,11 @@ export function PostCard({ username, avatarUrl, content, timestamp, userId, id, 
                     )}
                 </div>
             </CardHeader>
-            <CardContent className="">
+            <CardContent className="flex flex-col">
                 <p>{content}</p>
+                {isImageNotEmpty && (
+                    <PostImage images={image} />
+                )}
             </CardContent>
             <CardFooter>
                 <Button onClick={handleLike} size={'icon'} variant={'ghost'} className="cursor-pointer">

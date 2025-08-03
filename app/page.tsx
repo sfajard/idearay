@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { PostCard, PostCardSkeleton } from "@/components/post/post-card";
 import { CreatePostForm } from "@/components/post/create-post";
 import { Separator } from "@/components/ui/separator";
-import { Comment, Like, Post, User } from "@prisma/client";
+import { Comment, Image, Like, Post, User } from "@prisma/client";
 import { createPost, getAllPosts } from "@/lib/actions/post";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
@@ -14,9 +14,10 @@ interface CommentWithUser extends Comment {
 }
 
 interface PostWithUser extends Post {
-  user: Pick<User, 'name' | 'image' | 'id'>
+  user: User
   Like: Like[]
   comment: CommentWithUser[]
+  image?: Image[]
 }
 
 export default function Feed() {
@@ -25,7 +26,7 @@ export default function Feed() {
 
   const { data: session } = useSession()
 
-  const handleNewPost = async (content: string) => {
+  const handleNewPost = async (content: string, imageUrls: string[]) => {
     if (!session?.user) {
       redirect('/signin')
     }
@@ -35,13 +36,9 @@ export default function Feed() {
     }
 
     if (session.user.id) {
-      const response = await createPost(content, session.user.id)
+      const response = await createPost(content, session.user.id, imageUrls)
       console.log("Post created: ", response)
     }
-  }
-
-  const onDelete = () => {
-    loadPosts()
   }
 
   const loadPosts = async () => {
@@ -50,7 +47,7 @@ export default function Feed() {
       const response = await getAllPosts()
       if (response && Array.isArray(response)) {
         const sortedPosts = response.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-        setPosts(sortedPosts as PostWithUser[])
+        setPosts(sortedPosts)
       } else {
         setPosts([])
       }
@@ -68,7 +65,7 @@ export default function Feed() {
   return (
     <div className="w-full flex items-center justify-center">
       <div className="flex min-h-screen w-full flex-col items-center bg-gray-50">
-        <CreatePostForm onSuccess={loadPosts} onPostSubmit={handleNewPost} />
+        <CreatePostForm onSuccess={loadPosts} />
         <Separator className="mb-6" />
         {loading ? (
           <PostCardSkeleton />
@@ -84,6 +81,7 @@ export default function Feed() {
                 timestamp={post.createdAt.toISOString()}
                 Like={post.Like}
                 comment={post.comment}
+                image={post.image}
                 onSuccess={loadPosts}
               />
             ))}
