@@ -68,6 +68,21 @@ export function PostCard({ username, avatarUrl, content, timestamp, userId, id, 
 
     const [debouncedLike] = useDebounce(liked, 1000)
 
+        useEffect(() => {
+        if (!user?.id) return
+        if (debouncedLike !== initialLikedRef.current) {
+            if (debouncedLike === true) {
+                createLike(user.id, id)
+                console.log('created (via useEffect)')
+            } else {
+                deleteLike(user.id, id)
+                console.log('deleted (via useEffect)')
+            }
+
+            initialLikedRef.current = debouncedLike;
+        }
+    }, [debouncedLike, user?.id, id]);
+
     const handleDelete = async () => {
         deletePost(id)
         onSuccess()
@@ -83,20 +98,6 @@ export function PostCard({ username, avatarUrl, content, timestamp, userId, id, 
     }
     if (!image) return
     const isImageNotEmpty = image?.length >= 1
-    useEffect(() => {
-        if (!user?.id) return
-        if (debouncedLike !== initialLikedRef.current) {
-            if (debouncedLike === true) {
-                createLike(user.id, id)
-                console.log('created (via useEffect)')
-            } else {
-                deleteLike(user.id, id)
-                console.log('deleted (via useEffect)')
-            }
-
-            initialLikedRef.current = debouncedLike;
-        }
-    }, [debouncedLike, user?.id, id]);
 
     return (
         <Card className="w-full md:w-xl">
