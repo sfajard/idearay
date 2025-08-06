@@ -77,7 +77,7 @@ export function CreatePostForm({ onSuccess }: CreatePostFormProps) {
     setLoading(true)
 
     if (!session?.user.id) {
-      router.push('/singin')
+      router.push('/signin')
       return
     }
 
