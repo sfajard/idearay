@@ -73,10 +73,8 @@ export function PostCard({ username, avatarUrl, content, timestamp, userId, id, 
         if (debouncedLike !== initialLikedRef.current) {
             if (debouncedLike === true) {
                 createLike(user.id, id)
-                console.log('created (via useEffect)')
             } else {
                 deleteLike(user.id, id)
-                console.log('deleted (via useEffect)')
             }
 
             initialLikedRef.current = debouncedLike;
